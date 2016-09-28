@@ -60,6 +60,9 @@ Certain limitations apply to the certificate and key files, please see
 the following section on command-line usage for further information on
 this.
 
+For an example of how to use an external CookieJar, see
+`bin/cern-get-sso-cookie.py`.
+
 ### Using `cern-get-sso-cookie.py`
 
 Just like `cern-get-sso-cookie`, the Python implementation will
