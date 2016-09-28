@@ -2,6 +2,7 @@
 
 import logging
 from cookielib import MozillaCookieJar
+import time
 
 import cern_sso
 
@@ -19,7 +20,22 @@ if __name__ == '__main__':
     URL = "https://cerntraining.service-now.com"
 
     cookiejar = MozillaCookieJar("cookies.txt")
-
     cookies = cern_sso.krb_sign_on(URL, cookiejar=cookiejar)
 
-    cookiejar.save(ignore_discard=True, ignore_expires=True)
+    API_BASE_URL = URL +"/api/now/v1/table/incident?sys_created_by=dbstoragemon"
+
+    DEFAULT_HEADERS = {'Accept': 'application/json',
+                   'Content-Type': 'application/json'}
+
+    CERN_SSO_COOKIE_LIFETIME = 86400
+
+    # Rewrite cookies to have different session properties
+    for cookie in cookiejar:
+
+        cookie.expires = int(time.time() + CERN_SSO_COOKIE_LIFETIME)
+
+        # This session cookie is not a session cookie. Definitely not.
+        cookie.discard = False
+
+    # Write to disk
+    cookiejar.save()
