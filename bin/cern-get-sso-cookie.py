@@ -3,39 +3,97 @@
 import logging
 from cookielib import MozillaCookieJar
 import time
+from argparse import ArgumentParser
 
 import cern_sso
 
 import requests
 
+CERN_SSO_COOKIE_LIFETIME_S = 24*60*60
+
+APP_DESCRIPTION = ("")
+
 if __name__ == '__main__':
-    # logger = logging.getLogger()
-    # handler = logging.StreamHandler()
-    # formatter = logging.Formatter(
-    #     '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
-    # handler.setFormatter(formatter)
-    # logger.addHandler(handler)
-    # logger.setLevel(logging.INFO)
 
-    URL = "https://cerntraining.service-now.com"
+    logger = logging.getLogger()
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter(
+        '%(levelname)-4s  %(name)-4s %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
 
-    cookiejar = MozillaCookieJar("cookies.txt")
-    cookies = cern_sso.krb_sign_on(URL, cookiejar=cookiejar)
+    arg_parser = ArgumentParser(description=APP_DESCRIPTION)
 
-    API_BASE_URL = URL +"/api/now/v1/table/incident?sys_created_by=dbstoragemon"
+    arg_parser.add_argument('-o', '--output', dest='cookie_filename',
+                            metavar='cookies.txt', type=unicode,
+                            default='cookies.txt',
+                            help='path to where the cookies should be stored. Default is cookies.txt.')
 
-    DEFAULT_HEADERS = {'Accept': 'application/json',
-                   'Content-Type': 'application/json'}
+    arg_parser.add_argument('-u', '--url', dest='url',
+                            metavar='url', type=unicode,
+                            default='url',
+                            required=True,
+                            help='the desired URL to authenticate to.')
 
-    CERN_SSO_COOKIE_LIFETIME = 86400
+    verbosity_group = arg_parser.add_mutually_exclusive_group()
+
+    verbosity_group.add_argument('-v', '--verbose', dest='verbose',
+                                 action='store_true')
+
+    verbosity_group.add_argument('-d', '--debug', dest='debug',
+                                 action='store_true')
+
+    auth_method_group = arg_parser.add_mutually_exclusive_group(required=True)
+
+    auth_method_group.add_argument('-k', '--kerberos', dest='kerberos',
+                                   action='store_true',
+                                   help='use Kerberos authentication')
+
+    auth_method_group.add_argument('-c', '--cert', dest='cert',
+                                   metavar='certfile.cert',
+                                   type=unicode,
+                                   help='use Robot (SSL) certificate authentication with this certificate file.')
+
+    args = arg_parser.parse_args()
+
+    # DEBUG takes presedence over VERBOSE:
+    if args.debug:
+        logger.setLevel(logging.DEBUG)
+
+    elif args.verbose:
+        logger.setLevel(logging.INFO)
+
+    cookie_filename = args.cookie_filename
+
+    target_url = args.url
+
+    cookiejar = MozillaCookieJar(cookie_filename)
+
+    if args.kerberos:
+        cern_sso.krb_sign_on(target_url, cookiejar=cookiejar)
+    elif args.cert:
+        print("Certificate authentication is not supported yet!")
+        exit(1)
+    else:
+        assert False, "Either kerberos or cert should ALWAYS be true!"
 
     # Rewrite cookies to have different session properties
+    logger.info("Rewriting cookie expiration dates...")
     for cookie in cookiejar:
+        old_expires = cookie.expires
 
-        cookie.expires = int(time.time() + CERN_SSO_COOKIE_LIFETIME)
+        cookie.expires = int(time.time() + CERN_SSO_COOKIE_LIFETIME_S)
+        logger.debug(("Updating expiry date for cookie {name}. Old date was:"
+                      " {old_timestamp}, new is"
+                      " {new_timestamp}").format(name=cookie.name,
+                                                 old_timestamp=old_expires,
+                                                 new_timestamp=cookie.expires))
 
         # This session cookie is not a session cookie. Definitely not.
         cookie.discard = False
 
+
     # Write to disk
     cookiejar.save()
+
+    logger.info("Successfully stored cookies in %s" % cookie_filename)
