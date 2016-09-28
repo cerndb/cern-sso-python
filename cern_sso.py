@@ -105,6 +105,29 @@ def krb_sign_on(url, cookiejar={}):
 
 
 def cert_sign_on(url, cert_file, key_file, cookiejar={}):
+    """
+    Perform Single-Sign On with a robot/user certificate specified by
+    cert_file and key_file agains the target url. Note that the key
+    needs to be passwordless. cookiejar, if provided, will be used to
+    store cookies, and can be a Requests CookieJar, or a
+    MozillaCookieJar. Or even a dict.
+
+    Cookies will be returned on completion, but cookiejar will also be
+    modified in-place.
+
+    If you have a PKCS12 (.p12) file, you need to convert it. These
+    steps will not work for passwordless keys.
+
+    `openssl pkcs12 -clcerts -nokeys -in myCert.p12 -out ~/private/myCert.pem`
+
+    `openssl pkcs12 -nocerts -in myCert.p12 -out ~/private/myCert.tmp.key`
+
+    `openssl rsa -in ~/private/myCert.tmp.key -out ~/private/myCert.key`
+
+    Note that the resulting key file is *unencrypted*!
+
+    """
+
 
     with requests.Session() as s:
 
