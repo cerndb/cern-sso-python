@@ -76,5 +76,51 @@ def krb_sign_on(url, cookiejar={}):
         return s.cookies
 
 
-def cert_sign_on(url, cert_filename):
-    pass
+def cert_sign_on(url, cert_file, key_file, cookiejar={}):
+
+    with requests.Session() as s:
+        s.cookies = cookiejar
+
+        s.cert = (cert_file, key_file)
+
+        # Try getting the URL we really want, and get redirected to SSO
+        log.info("Fetching URL: %s" % url)
+        r1 = s.get(url)
+
+        # Parse out the session keys from the GET arguments:
+        redirect_url = urlparse(r1.url)
+        log.debug("Was redirected to SSO URL: %s" % str(redirect_url))
+
+        # ...and inject them into the Kerberos authentication URL
+        cert_auth_url = "{auth_url}?{parameters}".format(
+            auth_url=urljoin(r1.url, u"auth/sslclient/"),
+            parameters=redirect_url.query)
+
+        log.info("Performing SSL Cert authentication against %s" % cert_auth_url)
+
+
+        r2 = s.get(cert_auth_url, cookies=cookiejar, verify=False)
+
+        # Did it work? Raise Exception otherwise.
+        r2.raise_for_status()
+
+        # Get the contents
+        tree = ET.fromstring(r2.content)
+
+        action = tree.findall("body/form")[0].get('action')
+
+        # Unpack the hidden form data fields
+        form_data = {elm.get('name'): elm.get('value')
+                     for elm in tree.findall("body/form/input")}
+
+        # ...and submit the form (WHY IS THIS STEP EVEN HERE!?)
+        log.debug("Performing final authentication POST to %s" % action)
+        r3 = s.post(url=action, data=form_data)
+
+        # Did _that_ work?
+        r3.raise_for_status()
+
+        # The session cookie jar should now contain the necessary cookies.
+        log.debug("Cookie jar now contains: %s" % str(s.cookies))
+
+        return s.cookies

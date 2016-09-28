@@ -50,9 +50,14 @@ if __name__ == '__main__':
                                    help='use Kerberos authentication')
 
     auth_method_group.add_argument('-c', '--cert', dest='cert',
-                                   metavar='certfile.cert',
+                                   metavar='myCertificate',
                                    type=unicode,
-                                   help='use Robot (SSL) certificate authentication with this certificate file.')
+                                   help=("use Robot (SSL) certificate"
+                                         " authentication with this name/path."
+                                         " The program will assume that the"
+                                         " certificate is in myCertificate.pem"
+                                         " and a passwordless key is in"
+                                         " myCertificate.key"))
 
     args = arg_parser.parse_args()
 
@@ -72,8 +77,16 @@ if __name__ == '__main__':
     if args.kerberos:
         cern_sso.krb_sign_on(target_url, cookiejar=cookiejar)
     elif args.cert:
-        print("Certificate authentication is not supported yet!")
-        exit(1)
+        cert_file = "%s.pem" % args.cert
+        key_file = "%s.key" % args.cert
+
+        logger.info("Using SSL certificate file %s and key %s"
+                    % (cert_file, key_file))
+
+        cern_sso.cert_sign_on(target_url,
+                              cert_file=cert_file,
+                              key_file=key_file,
+                              cookiejar=cookiejar)
     else:
         assert False, "Either kerberos or cert should ALWAYS be true!"
 
