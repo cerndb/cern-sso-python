@@ -82,6 +82,7 @@ Now you can perform the authentication:
 ```
 $ cern-get-sso-cookie.py --url https://cerntraining.service-now.com --kerberos
 # cookies.txt now contains the relevant session cookies
+$ curl -L --cookie cookies.txt --cookie-jar cookies.txt -H 'Accept: application/json' "https://cerntraining.service-now.com/api/now/v1/table/incident"
 ```
 
 In the spirit of the UNIX philosophy, `cern-get-sso-cookie.py` outputs
