@@ -1,1 +1,3 @@
 *.pyc
+/bin/cern_sso.py
+/cookies.txt

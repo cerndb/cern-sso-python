@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 
-def krb_sign_on(url):
+def krb_sign_on(url, cookiejar={}):
     """
     Perform Kerberos-backed single-sign on against a provided
     (protected) URL.
@@ -23,11 +23,16 @@ def krb_sign_on(url):
     Returns a Requests `CookieJar`, which can be accessed as a
     dictionary, but most importantly passed directly into a request or
     session via the `cookies` keyword argument.
+
+    If a cookiejar-like object (such as a dictionary) is passed as the
+    cookiejar keword argument, this is passed on to the Session.
     """
 
     kerberos_auth = HTTPKerberosAuth(mutual_authentication=requests_kerberos.OPTIONAL)
 
     with requests.Session() as s:
+
+        s.cookies = cookiejar
 
         # Try getting the URL we really want, and get redirected to SSO
         log.info("Fetching URL: %s" % url)
@@ -67,29 +72,9 @@ def krb_sign_on(url):
 
         # The session cookie jar should now contain the necessary cookies.
         log.debug("Cookie jar now contains: %s" % str(s.cookies))
-        return s.cookies.copy()
+
+        return s.cookies
 
 
 def cert_sign_on(url, cert_filename):
     pass
-
-
-if __name__ == '__main__':
-
-    URL = "https://cerntraining.service-now.com"
-
-    logging.getLogger().setLevel(logging.DEBUG)
-
-    cookies = krb_sign_on(URL)
-
-    API_BASE_URL = URL +"/api/now/v1/table/incident?sys_created_by=dbstoragemon"
-
-    DEFAULT_HEADERS = {'Accept': 'application/json',
-                   'Content-Type': 'application/json'}
-
-    request = requests.get(API_BASE_URL, headers=DEFAULT_HEADERS,
-                           cookies=cookies)
-
-    #print request.status_code
-    #print(request.content)
-    #print(cookies)
