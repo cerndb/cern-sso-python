@@ -1,0 +1,4 @@
+requests
+kerberos
+requests-kerberos
+future
