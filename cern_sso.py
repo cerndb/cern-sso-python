@@ -23,7 +23,8 @@ def _init_session(s, url, cookiejar, auth_url_fragment):
     auth/integrated/ (kerberos) and auth/sslclient/ (SSL)
     """
 
-    s.cookies = cookiejar
+    if cookiejar:
+        s.cookies = cookiejar
 
     # Try getting the URL we really want, and get redirected to SSO
     log.info("Fetching URL: %s" % url)
