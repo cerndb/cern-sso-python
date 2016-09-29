@@ -1,8 +1,8 @@
-before_script:
-  - yum install -y python2.7 python-pip libxml2-devel libxslt-devel
-  - python2.7 setup.py install
-  - pip2.7 install pep8
-
-lint:
+install:
+  image: cern/slc6-base
   script:
+    - sudo yum -y update
+    - sudo yum install -y python2.7 python-pip libxml2-devel libxslt-devel
+    - python2.7 setup.py install
+    - pip2.7 install flake8
     - flake8 cern_sso.py
