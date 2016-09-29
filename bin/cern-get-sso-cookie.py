@@ -1,7 +1,9 @@
 #!/usr/bin/env python2.7
+from future import standard_library
+standard_library.install_aliases()
 
 import logging
-from cookielib import MozillaCookieJar
+from http.cookiejar import MozillaCookieJar
 import time
 from argparse import ArgumentParser
 
@@ -25,12 +27,12 @@ if __name__ == '__main__':
     arg_parser = ArgumentParser(description=APP_DESCRIPTION)
 
     arg_parser.add_argument('-o', '--output', dest='cookie_filename',
-                            metavar='cookies.txt', type=unicode,
+                            metavar='cookies.txt', type=str,
                             default='cookies.txt',
                             help='path to where the cookies should be stored. Default is cookies.txt.')
 
     arg_parser.add_argument('-u', '--url', dest='url',
-                            metavar='url', type=unicode,
+                            metavar='url', type=str,
                             default='url',
                             required=True,
                             help='the desired URL to authenticate to.')
@@ -51,7 +53,7 @@ if __name__ == '__main__':
 
     auth_method_group.add_argument('-c', '--cert', dest='cert',
                                    metavar='myCertificate',
-                                   type=unicode,
+                                   type=str,
                                    help=("use Robot (SSL) certificate"
                                          " authentication with this name/path."
                                          " The program will assume that the"
