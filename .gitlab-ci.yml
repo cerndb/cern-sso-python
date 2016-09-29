@@ -1,17 +1,18 @@
+lint:
+  image: python:latest
+  stage: build
+  script:
+    - pip install -r ci-deps.txt
+    - flake8 cern_sso.py
+
 install_run:
   image: cern/cc7-base
   script:
     - uname -a
     - yum -y update
-    - yum install -y python27-python-pip python27 python27-python-setuptools libxml2-devel libxslt-devel
+    - yum install -y python27-python-pip python-setuptools python27 python27-python-setuptools libxml2-devel libxslt-devel
     - python2.7 setup.py install
     - cern-get-sso-cookie.py --help
-
-lint:
-  image: python:latest
-  script:
-    - pip install -r ci-deps.txt
-    - flake8 cern_sso.py
 
 test_2:
   image: python:2
@@ -29,6 +30,7 @@ test_3:
 
 rpm:
   image: python:2
+  stage: deploy
 
   artifacts:
     paths:
