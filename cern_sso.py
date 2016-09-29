@@ -1,12 +1,12 @@
+from future import standard_library  # noqa: E402
+standard_library.install_aliases()  # noqa: E402
+from urllib.parse import urlparse, urljoin  # noqa: E402
+
 import logging
 import xml.etree.ElementTree as ET
-from future import standard_library
-standard_library.install_aliases()
-from urllib.parse import urlparse, urljoin
 
 import requests
-import requests_kerberos
-from requests_kerberos import HTTPKerberosAuth
+from requests_kerberos import HTTPKerberosAuth, OPTIONAL  # noqa: E402
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
@@ -91,7 +91,7 @@ def krb_sign_on(url, cookiejar={}):
     cookiejar keword argument, this is passed on to the Session.
     """
 
-    kerberos_auth = HTTPKerberosAuth(mutual_authentication=requests_kerberos.OPTIONAL)
+    kerberos_auth = HTTPKerberosAuth(mutual_authentication=OPTIONAL)
 
     with requests.Session() as s:
 
@@ -99,7 +99,9 @@ def krb_sign_on(url, cookiejar={}):
                                      auth_url_fragment=u"auth/integrated/")
 
         # Perform actual Kerberos authentication
-        log.info("Performing Kerberos authentication against %s" % krb_auth_url)
+        log.info("Performing Kerberos authentication against %s"
+                 % krb_auth_url)
+
         r2 = s.get(krb_auth_url, auth=kerberos_auth)
 
         return _finalise_login(s, auth_results=r2)
@@ -129,7 +131,6 @@ def cert_sign_on(url, cert_file, key_file, cookiejar={}):
 
     """
 
-
     with requests.Session() as s:
 
         # Set up the certificates (this needs to be done _before_ any
@@ -139,7 +140,9 @@ def cert_sign_on(url, cert_file, key_file, cookiejar={}):
         cert_auth_url = _init_session(s=s, url=url, cookiejar=cookiejar,
                                       auth_url_fragment=u"auth/sslclient/")
 
-        log.info("Performing SSL Cert authentication against %s" % cert_auth_url)
+        log.info("Performing SSL Cert authentication against %s"
+                 % cert_auth_url)
+
         r2 = s.get(cert_auth_url, cookies=cookiejar, verify=False)
 
         return _finalise_login(s, auth_results=r2)

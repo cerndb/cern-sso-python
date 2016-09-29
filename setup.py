@@ -14,7 +14,7 @@ setup(
     name='cern-sso',
 
     # Uses semver
-    version='1.0.2',
+    version='1.0.3',
 
     description='Cern Single-Single-Sign-On driver',
     long_description=long_description,
