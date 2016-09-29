@@ -4,3 +4,9 @@ install_run:
     - yum install -y python-pip libxml2-devel libxslt-devel
     - python setup.py install
     - cern-get-sso-cookie.py --help
+
+lint:
+  image: python:latest
+  script:
+    - pip install -r ci-deps.txt
+    - flake8 cern_sso.py
