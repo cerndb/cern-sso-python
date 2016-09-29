@@ -10,7 +10,7 @@ install_run:
   script:
     - uname -a
     - yum -y update
-    - yum install -y python-pip python27-python-pip python-setuptools python27 python27-python-setuptools libxml2-devel libxslt-devel gcc gcc-c++ make python27-python-devel python-devel
+    - yum install -y python-pip python27-python-pip python-setuptools python27 python27-python-setuptools libxml2-devel libxslt-devel gcc gcc-c++ make python27-python-devel python-devel krb5-devel
     - python2.7 -V
     - pip -V
     - pip install twine
