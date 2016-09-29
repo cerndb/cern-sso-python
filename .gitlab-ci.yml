@@ -40,6 +40,6 @@ rpm:
       - dist/
 
   script:
-    - apt-get update && apt-get install -y rpm libxslt-dev libxml2-dev
+    - apt-get update && apt-get install -y rpm libxslt-dev libxml2-dev python-pip
     - pip install twine
     - python setup.py bdist --format=rpm
