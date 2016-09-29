@@ -34,10 +34,13 @@ test_3:
 rpm:
   image: ubuntu:latest
   stage: deploy
+  only:
+    - tags
 
   artifacts:
     paths:
       - dist/*.rpm
+    name: "dist-$CI_BUILD_REF_NAME"
 
   script:
     - apt-get update && apt-get install -y rpm libxslt-dev libxml2-dev python-pip libkrb5-dev
