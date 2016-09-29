@@ -1,6 +1,6 @@
 install_run:
   script:
     - yum -y update
-    - yum install -y python27 python27-python-pip libxml2-devel libxslt-devel
-    - python2.7 setup.py install
+    - yum install -y python-pip libxml2-devel libxslt-devel
+    - python setup.py install
     - cern-get-sso-cookie.py --help
