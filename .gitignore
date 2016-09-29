@@ -4,3 +4,4 @@
 build/
 cern_sso.egg-info
 dist
+.cache/
