@@ -1,6 +1,5 @@
 install_run:
   image: cern/cc7-base
-  sudo: yes
   script:
     - uname -a
     - yum -y update
