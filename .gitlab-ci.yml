@@ -1,6 +1,6 @@
 before_script:
+  - apt-get update -qq && apt-get install -y -qq python2.7 python-pip
   - pip install -r ci-deps.txt
-#  - apt-get update -qq && apt-get install -y -qq
   - ./setup.py install
   - pip install pep8
 
