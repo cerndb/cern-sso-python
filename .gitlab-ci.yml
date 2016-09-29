@@ -1,8 +1,10 @@
 install_run:
+  image: cern/cc7-base
   script:
-    - yum -y update
-    - yum install -y python-pip libxml2-devel libxslt-devel
-    - python setup.py install
+    - uname -a
+    - sudo yum -y update
+    - sudo yum install -y python27-python-pip python27 libxml2-devel libxslt-devel
+    - python2.7 setup.py install
     - cern-get-sso-cookie.py --help
 
 lint:
