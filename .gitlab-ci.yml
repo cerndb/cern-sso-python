@@ -9,9 +9,8 @@ install_run:
   image: cern/cc7-base
   script:
     - uname -a
-    - yum -y update
     - yum install -y python27-python-pip python-setuptools python27 python27-python-setuptools libxml2-devel libxslt-devel gcc gcc-c++ make
-    - pip2.7 install twine
+    - pip install twine
     - python2.7 setup.py install
     - cern-get-sso-cookie.py --help
 
