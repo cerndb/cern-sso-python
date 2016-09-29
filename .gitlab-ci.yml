@@ -37,7 +37,7 @@ rpm:
 
   artifacts:
     paths:
-      - dist/
+      - dist/*.rpm
 
   script:
     - apt-get update && apt-get install -y rpm libxslt-dev libxml2-dev python-pip libkrb5-dev
