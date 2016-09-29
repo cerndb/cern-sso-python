@@ -1,7 +1,9 @@
 This is a re-implementation of the Perl script
-[cern-get-sso-cookie](https://github.com/sashabaranov/cern-get-sso-cookie/)
+cern-get-sso-cookie_.
 as a Python library. As a bonus, a shell client re-implementing (most
 of) the functionality of `cern-get-sso-cookie`, is also provided.
+
+.. _cern-get-sso-cookie: https://github.com/sashabaranov/cern-get-sso-cookie/
 
 Prerequisites
 -------------
