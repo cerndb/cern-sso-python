@@ -1,5 +1,4 @@
 before_script:
-  - yum -y update
   - yum install -y python2.7 python-pip libxml2-devel libxslt-devel
   - python2.7 setup.py install
   - pip2.7 install pep8
