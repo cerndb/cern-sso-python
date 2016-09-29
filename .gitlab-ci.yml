@@ -9,7 +9,6 @@ install_run:
   image: cern/cc7-base
   script:
     - uname -a
-    - rpm -iUvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
     - yub -y update
     - yum install -y python-pip python27-python-pip python-setuptools python27 python27-python-setuptools libxml2-devel libxslt-devel gcc gcc-c++ make
     - python2.7 -V
