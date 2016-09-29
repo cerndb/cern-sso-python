@@ -10,7 +10,8 @@ install_run:
   script:
     - uname -a
     - yum -y update
-    - yum install -y python27-python-pip python-setuptools python27 python27-python-setuptools libxml2-devel libxslt-devel
+    - yum install -y python27-python-pip python-setuptools python27 python27-python-setuptools libxml2-devel libxslt-devel gcc gcc-c++ make
+    - pip27 install twine
     - python2.7 setup.py install
     - cern-get-sso-cookie.py --help
 
@@ -38,4 +39,5 @@ rpm:
 
   script:
     - apt-get install -y rpm libxslt-dev libxml2-dev
+    - pip install twine
     - python setup.py bdist --format=rpm
