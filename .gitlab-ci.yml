@@ -26,3 +26,14 @@ test_3:
     - pip install -r requirements.txt
     - pip install -r ci-deps.txt
     - pytest
+
+rpm:
+  image: python:2
+
+  artifacts:
+    paths:
+      - dist/
+
+  script:
+    - apt-get install -y rpm libxslt-dev libxml2-dev
+    - python setup.py bdist --format=rpm
