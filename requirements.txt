@@ -2,3 +2,4 @@ requests
 kerberos
 requests-kerberos
 future
+pytest
