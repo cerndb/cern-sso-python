@@ -8,13 +8,14 @@ lint:
 install_run:
   image: cern/cc7-base
   before_script:
+    - yum -y update
+    - yum install install krb5-workstation krb5-libs
     # Decode the base64-encoded keytab and store it in dbstoragemon.keytab.
     - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
     # Authenticate using the keytab:
     - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
   script:
     - uname -a
-    - yum -y update
     - yum install -y python-pip python27-python-pip python-setuptools python27 python27-python-setuptools libxml2-devel libxslt-devel gcc gcc-c++ make python27-python-devel python-devel krb5-devel
     - python2.7 -V
     - pip -V
