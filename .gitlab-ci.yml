@@ -9,7 +9,7 @@ install_run:
   image: cern/cc7-base
   before_script:
     - yum -y update
-    - yum install install krb5-workstation krb5-libs
+    - yum install -y krb5-workstation krb5-libs
     # Decode the base64-encoded keytab and store it in dbstoragemon.keytab.
     - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
     # Authenticate using the keytab:
