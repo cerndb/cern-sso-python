@@ -7,6 +7,11 @@ lint:
 
 install_run:
   image: cern/cc7-base
+  before_script:
+    # Decode the base64-encoded keytab and store it in dbstoragemon.keytab.
+    - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
+    # Authenticate using the keytab:
+    - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
   script:
     - uname -a
     - yum -y update
@@ -16,6 +21,7 @@ install_run:
     - pip install twine
     - python2.7 setup.py install
     - cern-get-sso-cookie.py --help
+    - corn-get-sso-cookie.py --kerberos --verbose --url https://dbnas-storage-docs.web.cern.ch
 
 test_2:
   image: python:2
