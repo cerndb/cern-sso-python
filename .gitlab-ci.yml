@@ -21,7 +21,8 @@ install_run:
     - pip install twine
     - python2.7 setup.py install
     - cern-get-sso-cookie.py --help
-    - corn-get-sso-cookie.py --kerberos --verbose --url https://dbnas-storage-docs.web.cern.ch
+    - cern-get-sso-cookie.py --kerberos --verbose --url https://dbnas-storage-docs.web.cern.ch
+    - cat cookies.txt
 
 test_2:
   image: python:2
