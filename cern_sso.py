@@ -23,7 +23,8 @@ def _init_session(s, url, cookiejar, auth_url_fragment):
     auth/integrated/ (kerberos) and auth/sslclient/ (SSL)
     """
 
-    if cookiejar:
+    if cookiejar is not None:
+        log.debug("Using provided cookiejar")
         s.cookies = cookiejar
 
     # Try getting the URL we really want, and get redirected to SSO
@@ -75,7 +76,7 @@ def _finalise_login(s, auth_results):
     return s.cookies
 
 
-def krb_sign_on(url, cookiejar={}):
+def krb_sign_on(url, cookiejar=None):
     """
     Perform Kerberos-backed single-sign on against a provided
     (protected) URL.

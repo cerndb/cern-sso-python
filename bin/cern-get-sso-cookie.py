@@ -6,6 +6,7 @@ import logging
 from http.cookiejar import MozillaCookieJar
 import time
 from argparse import ArgumentParser
+import sys
 
 import cern_sso
 
@@ -92,6 +93,13 @@ if __name__ == '__main__':
     else:
         assert False, "Either kerberos or cert should ALWAYS be true!"
 
+    if not cookiejar:
+        print ("Error: the returned cookie jar from the login rain dance"
+               " was empty. Either you were not authorised to access"
+               " the resourse, or something else went wrong."
+               " Sorry, these things are a bit flaky.")
+        exit(1)
+
     # Rewrite cookies to have different session properties
     logger.info("Rewriting cookie expiration dates...")
     for cookie in cookiejar:
@@ -106,7 +114,6 @@ if __name__ == '__main__':
 
         # This session cookie is not a session cookie. Definitely not.
         cookie.discard = False
-
 
     # Write to disk
     cookiejar.save()
