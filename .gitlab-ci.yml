@@ -43,23 +43,23 @@ rpm:
     - pip install -r requirements.txt
     - python setup.py bdist --format=rpm
 
-install_rpm:
-  stage: deploy
-  image: cern/cc7-base
-  only:
-    - tags
+# install_rpm:
+#   stage: deploy
+#   image: cern/cc7-base
+#   only:
+#     - tags
 
-  before_script:
-    - yum -y update
-    - yum install -y krb5-workstation krb5-libs
-    # Decode the base64-encoded keytab and store it in dbstoragemon.keytab.
-    - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
-    # Authenticate using the keytab:
-    - yum install python-requests-kerberos python-requests python2-future
-    - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
+#   before_script:
+#     - yum -y update
+#     - yum install -y krb5-workstation krb5-libs
+#     # Decode the base64-encoded keytab and store it in dbstoragemon.keytab.
+#     - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
+#     # Authenticate using the keytab:
+#     - yum install python-requests-kerberos python-requests python2-future
+#     - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
 
-  script:
-    - rpm -i dist/python-cern-sso-$CI_BUILD_REF_NAME-1.noarch.rpm
-    - cern-get-sso-cookie.py --help
-    - cern-get-sso-cookie.py --kerberos --verbose --url https://dbnas-storage-docs.web.cern.ch
-    - grep -q "dbnas-storage-docs.web.cern.ch" cookies.txt
+#   script:
+#     - rpm -i dist/python-cern-sso-$CI_BUILD_REF_NAME-1.noarch.rpm
+#     - cern-get-sso-cookie.py --help
+#     - cern-get-sso-cookie.py --kerberos --verbose --url https://dbnas-storage-docs.web.cern.ch
+#     - grep -q "dbnas-storage-docs.web.cern.ch" cookies.txt
