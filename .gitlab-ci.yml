@@ -71,6 +71,9 @@ install_rpm:
   only:
     - tags
 
+  before_script:
+    - yum install python-requests-kerberos python-requests python2-future
+
   script:
     - rpm -i dist/python-cern-sso-$CI_BUILD_REF_NAME-1.noarch.rpm
     - cern-get-sso-cookie.py --help
