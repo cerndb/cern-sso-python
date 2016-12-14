@@ -1,3 +1,5 @@
+import cern_sso
+
 # Always prefer setuptools over distutils
 from setuptools import setup
 # To use a consistent encoding
@@ -14,7 +16,7 @@ setup(
     name='python-cern-sso',
 
     # Uses semver
-    version='1.1.1',
+    version=cern_sso.__version__,
 
     description='Cern Single-Single-Sign-On driver',
     long_description=long_description,
