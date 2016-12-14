@@ -11,28 +11,6 @@ lint:
     - pip install -r ci-deps.txt
     - flake8 cern_sso.py
 
-install_run:
-  stage: test
-  image: cern/cc7-base
-  before_script:
-    - yum -y update
-    - yum install -y krb5-workstation krb5-libs
-    # Decode the base64-encoded keytab and store it in dbstoragemon.keytab.
-    - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
-    # Authenticate using the keytab:
-  script:
-    - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
-    - klist
-    - uname -a
-    - yum install -y python-pip python27-python-pip python-setuptools python27 python27-python-setuptools libxml2-devel libxslt-devel gcc gcc-c++ make python27-python-devel python-devel krb5-devel
-    - python2.7 -V
-    - pip -V
-    - pip install twine future
-    - python2.7 setup.py install
-    - cern-get-sso-cookie.py --help
-    - cern-get-sso-cookie.py --kerberos --verbose --url https://dbnas-storage-docs.web.cern.ch
-    - grep -q "dbnas-storage-docs.web.cern.ch" cookies.txt
-
 test_2:
   stage: test
   image: python:2
@@ -72,8 +50,16 @@ install_rpm:
     - tags
 
   before_script:
+    - yum -y update
+    - yum install -y krb5-workstation krb5-libs
+    # Decode the base64-encoded keytab and store it in dbstoragemon.keytab.
+    - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
+    # Authenticate using the keytab:
     - yum install python-requests-kerberos python-requests python2-future
+    - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
 
   script:
     - rpm -i dist/python-cern-sso-$CI_BUILD_REF_NAME-1.noarch.rpm
     - cern-get-sso-cookie.py --help
+    - cern-get-sso-cookie.py --kerberos --verbose --url https://dbnas-storage-docs.web.cern.ch
+    - grep -q "dbnas-storage-docs.web.cern.ch" cookies.txt
