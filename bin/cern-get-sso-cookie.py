@@ -1,16 +1,15 @@
 #!/usr/bin/env python2.7
+import cern_sso
 from future import standard_library
 standard_library.install_aliases()
 
-import logging
-from http.cookiejar import MozillaCookieJar
-import time
-from argparse import ArgumentParser
-import sys
+import logging # noqa
+from http.cookiejar import MozillaCookieJar # noqa
+import time # noqa
+from argparse import ArgumentParser # noqa
+import sys # noqa
 
-import cern_sso
-
-import requests
+import requests # noqa
 
 CERN_SSO_COOKIE_LIFETIME_S = 24*60*60
 
@@ -62,6 +61,10 @@ if __name__ == '__main__':
                                          " and a passwordless key is in"
                                          " myCertificate.key"))
 
+    arg_parser.add_argument('-V', '--version',
+                            action='version',
+                            version=cern_sso.__version__)
+
     args = arg_parser.parse_args()
 
     # DEBUG takes presedence over VERBOSE:
@@ -94,10 +97,10 @@ if __name__ == '__main__':
         assert False, "Either kerberos or cert should ALWAYS be true!"
 
     if not cookiejar:
-        print ("Error: the returned cookie jar from the login rain dance"
-               " was empty. Either you were not authorised to access"
-               " the resourse, or something else went wrong."
-               " Sorry, these things are a bit flaky.")
+        print("Error: the returned cookie jar from the login rain dance"
+              " was empty. Either you were not authorised to access"
+              " the resourse, or something else went wrong."
+              " Sorry, these things are a bit flaky.")
         exit(1)
 
     # Rewrite cookies to have different session properties
