@@ -11,8 +11,6 @@ from requests_kerberos import HTTPKerberosAuth, OPTIONAL  # noqa: E402
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
-__version__ = '1.2.1'
-
 
 def _init_session(s, url, cookiejar, auth_url_fragment):
     """

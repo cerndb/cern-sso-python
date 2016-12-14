@@ -1,4 +1,4 @@
-import cern_sso
+#import cern_sso
 
 # Always prefer setuptools over distutils
 from setuptools import setup
@@ -16,7 +16,7 @@ setup(
     name='python-cern-sso',
 
     # Uses semver
-    version=cern_sso.__version__,
+    version='1.2.1',
 
     description='Cern Single-Single-Sign-On driver',
     long_description=long_description,

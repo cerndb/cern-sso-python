@@ -15,6 +15,8 @@ CERN_SSO_COOKIE_LIFETIME_S = 24*60*60
 
 APP_DESCRIPTION = ("")
 
+__version__ = '1.2.1'
+
 if __name__ == '__main__':
 
     logger = logging.getLogger()
@@ -63,7 +65,7 @@ if __name__ == '__main__':
 
     arg_parser.add_argument('-V', '--version',
                             action='version',
-                            version=cern_sso.__version__)
+                            version=__version__)
 
     args = arg_parser.parse_args()
 
