@@ -1,11 +1,18 @@
+stages:
+  - pre_test
+  - test
+  - build
+  - deploy
+
 lint:
   image: python:latest
-  stage: build
+  stage: pre_test
   script:
     - pip install -r ci-deps.txt
     - flake8 cern_sso.py
 
 install_run:
+  stage: test
   image: cern/cc7-base
   before_script:
     - yum -y update
@@ -27,6 +34,7 @@ install_run:
     - grep -q "dbnas-storage-docs.web.cern.ch" cookies.txt
 
 test_2:
+  stage: test
   image: python:2
   script:
     - pip install -r requirements.txt
@@ -34,6 +42,7 @@ test_2:
     - pytest
 
 test_3:
+  stage: test
   image: python:3
   script:
     - pip install -r requirements.txt
@@ -42,7 +51,7 @@ test_3:
 
 rpm:
   image: ubuntu:latest
-  stage: deploy
+  stage: build
   only:
     - tags
 
@@ -55,3 +64,13 @@ rpm:
     - apt-get update && apt-get install -y rpm libxslt-dev libxml2-dev python-pip libkrb5-dev
     - pip install twine
     - python setup.py bdist --format=rpm
+
+install_rpm:
+  stage: deploy
+  image: cern/cc7-base
+  only:
+    - tags
+
+  script:
+    - rpm -i dist/python-cern-sso-$CI_BUILD_REF_NAME-1.noarch.rpm
+    - cern-get-sso-cookie.py --help
