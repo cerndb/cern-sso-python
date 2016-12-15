@@ -5,7 +5,7 @@ stages:
   - deploy
 
 lint:
-#  image: python:latest
+  image: gitlab-registry.cern.ch/ci-tools/ci-worker:cc7
   stage: pre_test
   before_script:
     - yum install -y python-pip python-virtualenv
