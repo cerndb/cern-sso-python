@@ -9,7 +9,7 @@ lint:
   stage: pre_test
   before_script:
     - yum install -y python-pip python-virtualenv
-    - virtualenv venv
+    - virtualenv -p python2.7 venv
   script:
     - source venv/bin/activate
     - pip install -r ci-deps.txt
