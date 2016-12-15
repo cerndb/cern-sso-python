@@ -9,7 +9,7 @@ lint:
   stage: pre_test
   script:
     - pip install -r ci-deps.txt
-    - flake8 cern_sso.py
+    - flake8 cern_sso.py bin/cern-get-sso-cookie.py
 
 test_2:
   stage: test
