@@ -5,9 +5,13 @@ stages:
   - deploy
 
 lint:
-  image: python:latest
+#  image: python:latest
   stage: pre_test
+  before_script:
+    - yum install -y python-pip python-virtualenv
+    - virtualenv venv
   script:
+    - source venv/bin/activate
     - pip install -r ci-deps.txt
     - flake8 cern_sso.py bin/cern-get-sso-cookie.py
 
