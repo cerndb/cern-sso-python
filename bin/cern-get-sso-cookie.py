@@ -26,7 +26,8 @@ if __name__ == '__main__':
     arg_parser.add_argument('-o', '--output', dest='cookie_filename',
                             metavar='cookies.txt', type=str,
                             default='cookies.txt',
-                            help='path to where the cookies should be stored. Default is cookies.txt.')
+                            help=('path to where the cookies should'
+                                  ' be stored. Default is cookies.txt.'))
 
     arg_parser.add_argument('-u', '--url', dest='url',
                             metavar='url', type=str,
