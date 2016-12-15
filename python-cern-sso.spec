@@ -14,7 +14,7 @@ Prefix: %{_prefix}
 BuildArch: noarch
 BuildRequires: python2-devel python34-devel python-setuptools python34-setuptools
 Vendor: Albin Stjerna <albin.stjerna@cern.ch>
-Requires: python-requests python-requests-kerberos python2-six
+Requires: python-requests python-requests-kerberos python-six
 Url: https://gitlab.cern.ch/astjerna/cern-sso-python
 
 %description
@@ -139,7 +139,7 @@ For further notes on usage, see ``cern-get-sso-cookie.py --help``.
 
 %package -n python2-%{srcname}
 Summary:        %{sum}
-Requires: python-requests python-requests-kerberos python2-six
+Requires: python-requests python-requests-kerberos python-six
 #%{?python_provide:%python_provide python2-%{srcname}}
 
 %description -n python2-%{srcname}
@@ -175,12 +175,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n python2-%{srcname}
 %doc README.rst
-%files -f INSTALLED_FILES_2
+# %files -f INSTALLED_FILES_2
+%{python2_sitelib}/*
+%{_bindir}/cern-get-sso-cookie.py
 %defattr(-,root,root,-)
-# %{python2_sitelib}/*
-# %{_bindir}/cern-get-sso-cookie.py
 
 %files -n python3-%{srcname}
 %doc README.rst
-%files -f INSTALLED_FILES_3
+# %files -f INSTALLED_FILES_3
+%{python3_sitelib}/*
+%{_bindir}/cern-get-sso-cookie.py
 %defattr(-,root,root)
