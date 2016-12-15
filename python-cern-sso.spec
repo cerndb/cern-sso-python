@@ -5,7 +5,7 @@
 Name: python-cern-sso
 Version: 1.2.2
 Summary:        %{sum}
-Release: 1
+Release: 4
 Source0: %{name}-%{version}.tar.gz
 License: MIT
 Group: CERN/Utilities
@@ -148,7 +148,7 @@ An python module which provides a convenient example.
 
 %package -n python3-%{srcname}
 Summary:        %{sum}
-Requires: python-requests python-requests-kerberos python34-six
+Requires: python34-requests python34-requests-kerberos python34-six
 #%{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
@@ -158,11 +158,9 @@ An python module which provides a convenient example.
 %prep
 %setup -q
 
-# %setup -n %{name}-%{unmangled_version} -n %{name}-%{unmangled_version}
-
 %build
-%{__python2} setup.py build
-%{__python3} setup.py build
+%{__python3} setup.py build  --executable=%{__python2}
+%{__python2} setup.py build  --executable=%{__python2}
 
 %install
 %{__rm} -rf %{buildroot}
@@ -184,5 +182,4 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.rst
 # %files -f INSTALLED_FILES_3
 %{python3_sitelib}/*
-%{_bindir}/cern-get-sso-cookie.py
 %defattr(-,root,root)
