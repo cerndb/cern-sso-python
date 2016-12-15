@@ -1,12 +1,11 @@
-from future import standard_library  # noqa: E402
-standard_library.install_aliases()  # noqa: E402
-from urllib.parse import urlparse, urljoin  # noqa: E402
+import six
+from six.moves.urllib.parse import urlparse, urljoin
 
 import logging
 import xml.etree.ElementTree as ET
 
 import requests
-from requests_kerberos import HTTPKerberosAuth, OPTIONAL  # noqa: E402
+from requests_kerberos import HTTPKerberosAuth, OPTIONAL
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())

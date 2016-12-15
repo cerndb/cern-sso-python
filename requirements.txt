@@ -1,5 +1,5 @@
 requests
 kerberos
 requests-kerberos
-future
+six
 pytest

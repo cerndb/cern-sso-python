@@ -58,7 +58,7 @@ setup(
     install_requires=['requests',
                       'lxml',
                       'requests-kerberos',
-                      'future'],
+                      'six'],
 
     scripts=['bin/cern-get-sso-cookie.py']
 )
