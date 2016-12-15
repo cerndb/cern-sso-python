@@ -3,7 +3,7 @@
 %define name python-%{srcname}
 
 Name: python-cern-sso
-Version: 1.2.1
+Version: 1.2.2
 Summary:        %{sum}
 Release: 1
 Source0: %{name}-%{version}.tar.gz

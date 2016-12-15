@@ -1,21 +1,16 @@
 #!/usr/bin/env python2.7
 import cern_sso
-from future import standard_library
-standard_library.install_aliases()
 
-import logging # noqa
-from http.cookiejar import MozillaCookieJar # noqa
-import time # noqa
-from argparse import ArgumentParser # noqa
-import sys # noqa
-
-import requests # noqa
+import logging
+from six.moves.http_cookiejar import MozillaCookieJar
+import time
+from argparse import ArgumentParser
 
 CERN_SSO_COOKIE_LIFETIME_S = 24*60*60
 
 APP_DESCRIPTION = ("")
 
-__version__ = '1.2.1'
+__version__ = '1.2.2'
 
 if __name__ == '__main__':
 
