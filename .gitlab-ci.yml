@@ -19,7 +19,7 @@ test_2:
   image: gitlab-registry.cern.ch/ci-tools/ci-worker:cc7
   stage: test
   before_script:
-    - yum install -y python-pip krb5-workstation krb5-libs krb5-devel make rpm-build make tar pytest zlib-devel bzip2-devel readline-devel openssl-devel sqlite-devel python-setuptools python-py python-requests-kerberos python-lxml pytz python-requests python-sphinx python-enum34 python2-pytest-cov
+    - yum install -y python27-python python-pip krb5-workstation krb5-libs krb5-devel make rpm-build make tar pytest zlib-devel bzip2-devel readline-devel openssl-devel sqlite-devel python-setuptools python-py python-requests-kerberos python-lxml pytz python-requests python-sphinx python-enum34 python2-pytest-cov
     # - curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
     # - echo 'export PATH="/opt/app-root/jenkins/.pyenv/bin:$PATH"' >> ~/.bash_profile
     # - source ~/.bash_profile
@@ -31,7 +31,7 @@ test_2:
     # - eval "$(pyenv virtualenv-init -)"
     # - pyenv virtualenv 2.7.12 test-python2
     - pip install --upgrade setuptools virtualenv pip
-    - virtualenv -p python py2_test
+    - virtualenv -p python2.7 py2_test
     - source py2_test/bin/activate
   script:
     # - pyenv activate test-python2
