@@ -31,7 +31,7 @@ test_2:
     # - eval "$(pyenv virtualenv-init -)"
     # - pyenv virtualenv 2.7.12 test-python2
     - virtualenv -p python2.7 py2_test
-    - source venv/bin/activate
+    - source py2_test/bin/activate
   script:
     # - pyenv activate test-python2
     - pip install -r requirements.txt
