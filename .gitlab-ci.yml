@@ -19,8 +19,13 @@ test_2:
   image: gitlab-registry.cern.ch/ci-tools/ci-worker:cc7
   stage: test
   before_script:
-    - yum install -y python-pip python-virtualenv krb5-workstation krb5-libs
+    - yum install -y python-pip python-virtualenv krb5-workstation krb5-libs krb5-devel
+    - curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+    - pyenv init
+    - pyenv install 2.7.13
+    - pyenv global 2.7.13
     - virtualenv -p python2.7 venv2
+
   script:
     - source venv2/bin/activate
     - pip install -r requirements.txt
@@ -31,7 +36,11 @@ test_3:
   stage: test
   image: gitlab-registry.cern.ch/ci-tools/ci-worker:cc7
   before_script:
-    - yum install -y python34-pip python-virtualenv krb5-workstation krb5-libs
+    - yum install -y python34-pip python-virtualenv krb5-workstation krb5-libs krb5-devel
+    - curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+    - pyenv init
+    - pyenv install 3.6.0
+    - pyenv global 3.6.0
     - virtualenv -p python3 venv3
   script:
     - source venv3/bin/activate
