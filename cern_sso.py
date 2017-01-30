@@ -9,7 +9,7 @@ from requests_kerberos import HTTPKerberosAuth, OPTIONAL
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
-DEFAULT_TIMEOUT_SECONDS = 1
+DEFAULT_TIMEOUT_SECONDS = 10
 
 
 def _init_session(s, url, cookiejar, auth_url_fragment):
