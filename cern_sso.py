@@ -9,6 +9,8 @@ from requests_kerberos import HTTPKerberosAuth, OPTIONAL
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
+DEFAULT_TIMEOUT_SECONDS = 1
+
 
 def _init_session(s, url, cookiejar, auth_url_fragment):
     """
@@ -27,7 +29,7 @@ def _init_session(s, url, cookiejar, auth_url_fragment):
 
     # Try getting the URL we really want, and get redirected to SSO
     log.info("Fetching URL: %s" % url)
-    r1 = s.get(url)
+    r1 = s.get(url, timeout=DEFAULT_TIMEOUT_SECONDS)
 
     # Parse out the session keys from the GET arguments:
     redirect_url = urlparse(r1.url)
@@ -63,7 +65,7 @@ def _finalise_login(s, auth_results):
 
     # ...and submit the form (WHY IS THIS STEP EVEN HERE!?)
     log.debug("Performing final authentication POST to %s" % action)
-    r3 = s.post(url=action, data=form_data)
+    r3 = s.post(url=action, data=form_data, timeout=DEFAULT_TIMEOUT_SECONDS)
 
     # Did _that_ work?
     r3.raise_for_status()
@@ -101,7 +103,8 @@ def krb_sign_on(url, cookiejar=None):
         log.info("Performing Kerberos authentication against %s"
                  % krb_auth_url)
 
-        r2 = s.get(krb_auth_url, auth=kerberos_auth)
+        r2 = s.get(krb_auth_url, auth=kerberos_auth,
+                   timeout=DEFAULT_TIMEOUT_SECONDS)
 
         return _finalise_login(s, auth_results=r2)
 
@@ -142,6 +145,7 @@ def cert_sign_on(url, cert_file, key_file, cookiejar={}):
         log.info("Performing SSL Cert authentication against %s"
                  % cert_auth_url)
 
-        r2 = s.get(cert_auth_url, cookies=cookiejar, verify=False)
+        r2 = s.get(cert_auth_url, cookies=cookiejar, verify=False,
+                   timeout=DEFAULT_TIMEOUT_SECONDS)
 
         return _finalise_login(s, auth_results=r2)
