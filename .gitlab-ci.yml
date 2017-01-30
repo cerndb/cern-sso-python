@@ -15,31 +15,31 @@ lint:
     - pip install -r ci-deps.txt
     - flake8 cern_sso.py bin/cern-get-sso-cookie.py
 
-test_2:
-  image: ubuntu:latest
-  stage: test
-  before_script:
-    - apt-get update && apt-get install -y python-pip python-virtualenv libxslt-dev libxml2-dev python-pip libkrb5-dev
-    # - yum install -y krb5-workstation krb5-libs krb5-devel rpm-build make tar zlib-devel bzip2-devel readline-devel openssl-devel sqlite-devel
-    # - curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-    # - echo 'export PATH="/opt/app-root/jenkins/.pyenv/bin:$PATH"' >> ~/.bash_profile
-    # - echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
-    # - source ~/.bash_profile
-    # - pyenv version
-    # - python --version
-    # - pyenv install 2.7.12
-    # - pyenv global 2.7.12
-    # - pip --version
-    # - python --version
-    # - pyenv version
-    # - pip install --upgrade setuptools virtualenv pip
-    # - eval "$(pyenv virtualenv-init -)"
-    # - pyenv virtualenv 2.7.12 test_python2
-    # - pyenv activate test_python2
-  script:
-    - pip install -r requirements.txt
-    - pip install -r ci-deps.txt
-    - pytest
+# test_2:
+#   image: ubuntu:latest
+#   stage: test
+#   before_script:
+#     - apt-get update && apt-get install -y python-pip python-virtualenv libxslt-dev libxml2-dev python-pip libkrb5-dev
+#     # - yum install -y krb5-workstation krb5-libs krb5-devel rpm-build make tar zlib-devel bzip2-devel readline-devel openssl-devel sqlite-devel
+#     # - curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+#     # - echo 'export PATH="/opt/app-root/jenkins/.pyenv/bin:$PATH"' >> ~/.bash_profile
+#     # - echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
+#     # - source ~/.bash_profile
+#     # - pyenv version
+#     # - python --version
+#     # - pyenv install 2.7.12
+#     # - pyenv global 2.7.12
+#     # - pip --version
+#     # - python --version
+#     # - pyenv version
+#     # - pip install --upgrade setuptools virtualenv pip
+#     # - eval "$(pyenv virtualenv-init -)"
+#     # - pyenv virtualenv 2.7.12 test_python2
+#     # - pyenv activate test_python2
+#   script:
+#     - pip install -r requirements.txt
+#     - pip install -r ci-deps.txt
+#     - pytest
 
 test_3:
   stage: test
@@ -65,8 +65,8 @@ test_3:
     - pip install -r ci-deps.txt
     - pytest
     - python setup.py install
-    - cern-get-sso-cookie.py --help
-    - cern-get-sso-cookie.py --kerberos --verbose --url https://dbnas-storage-docs.web.cern.ch
+    - ./bin/cern-get-sso-cookie.py --help
+    - ./bin/cern-get-sso-cookie.py --kerberos --verbose --url https://dbnas-storage-docs.web.cern.ch
     - grep -q "dbnas-storage-docs.web.cern.ch" cookies.txt
 
 
