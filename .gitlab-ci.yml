@@ -55,7 +55,6 @@ test_3:
     - pyenv virtualenv 3.6.0 test-python3
      # Authenticate using the keytab:
     - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
-    - yum install python-requests-kerberos python-requests python2-future
     - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
   script:
     - pyenv activate test-python3
