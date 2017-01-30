@@ -19,7 +19,7 @@ test_2:
   image: gitlab-registry.cern.ch/ci-tools/ci-worker:cc7
   stage: test
   before_script:
-    - yum install -y python-pip python-virtualenv krb5-workstation krb5-libs krb5-devel make rpm-build make tar python2-devel python-setuptools python-py pytest python34-devel python34-setuptools zlib-devel bzip2-devel readline-devel openssl-devel
+    - yum install -y python-pip python-virtualenv krb5-workstation krb5-libs krb5-devel make rpm-build make tar python2-devel python-setuptools python-py pytest python34-devel python34-setuptools zlib-devel bzip2-devel readline-devel openssl-devel sqlite-devel
     - curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
     - echo 'export PATH="/opt/app-root/jenkins/.pyenv/bin:$PATH"' >> ~/.bash_profile
     - source ~/.bash_profile
@@ -39,7 +39,7 @@ test_3:
   stage: test
   image: gitlab-registry.cern.ch/ci-tools/ci-worker:cc7
   before_script:
-    - yum install -y python34-pip python-virtualenv krb5-workstation krb5-libs krb5-devel make rpm-build make tar python2-devel python-setuptools python-py pytest python34-devel python34-setuptools zlib-devel bzip2-devel readline-devel openssl-devel
+    - yum install -y python34-pip python-virtualenv krb5-workstation krb5-libs krb5-devel make rpm-build make tar python2-devel python-setuptools python-py pytest python34-devel python34-setuptools zlib-devel bzip2-devel readline-devel openssl-devel sqlite-devel
     - curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
     - echo 'export PATH="/opt/app-root/jenkins/.pyenv/bin:$PATH"' >> ~/.bash_profile
     - source ~/.bash_profile
