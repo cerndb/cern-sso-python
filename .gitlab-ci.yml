@@ -27,13 +27,16 @@ test_2:
     - eval "$(pyenv virtualenv-init -)"
     - pyenv install 2.7.13
     - pyenv global 2.7.13
-    - virtualenv -p python2.7 venv2
+    - git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
+    - eval "$(pyenv virtualenv-init -)"
+    - pyenv virtualenv 2.7.13 test-python2
 
   script:
-    - source venv2/bin/activate
+    - pyenv activate test-python2
     - pip install -r requirements.txt
     - pip install -r ci-deps.txt
     - pytest
+    - pyenv deactivate
 
 test_3:
   stage: test
@@ -47,14 +50,17 @@ test_3:
     - eval "$(pyenv virtualenv-init -)"
     - pyenv install 3.6.0
     - pyenv global 3.6.0
-    - virtualenv -p python3 venv3
+    - git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
+    - eval "$(pyenv virtualenv-init -)"
+    - pyenv virtualenv 3.6.0 test-python3
   script:
-    - source venv3/bin/activate
+    - pyenv activate test-python3
     - python --version
     - pip --version
     - pip install -r requirements.txt
     - pip install -r ci-deps.txt
     - pytest
+    - pyenv deactivate
 
 # rpm:
 #   image: ubuntu:latest
