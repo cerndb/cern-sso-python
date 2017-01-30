@@ -30,8 +30,8 @@ test_2:
     # - pyenv global 2.7.12
     # - eval "$(pyenv virtualenv-init -)"
     # - pyenv virtualenv 2.7.12 test-python2
-    - pip install setuptools virtualenv
-    - virtualenv -p python2.7 py2_test
+    - pip install --upgrade setuptools virtualenv pip
+    - virtualenv -p python py2_test
     - source py2_test/bin/activate
   script:
     # - pyenv activate test-python2
@@ -73,11 +73,11 @@ deploy:
     - yum install -y koji
     - mkdir -p ~/.koji/
     - >
-      echo '[koji]
-      server = http://koji.cern.ch/kojihub
-      weburl = http://koji.cern.ch/koji
-      topurl = http://koji.cern.ch/kojifiles
-      cert    = /not/existing/file'
+      echo '[koji]\n
+      server = http://koji.cern.ch/kojihub\n
+      weburl = http://koji.cern.ch/koji\n
+      topurl = http://koji.cern.ch/kojifiles\n
+      cert    = /not/existing/file\n'
       > ~/.koji/config
     - cat ~/.koji/config
   script:
