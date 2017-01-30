@@ -22,19 +22,19 @@ test_2:
     - yum install -y krb5-workstation krb5-libs krb5-devel rpm-build make tar zlib-devel bzip2-devel readline-devel openssl-devel sqlite-devel
     - curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
     - echo 'export PATH="/opt/app-root/jenkins/.pyenv/bin:$PATH"' >> ~/.bash_profile
+    - echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
     - source ~/.bash_profile
     - pyenv version
     - python --version
-    - eval "$(pyenv init -)"
     - pyenv install 2.7.12
     - pyenv global 2.7.12
     - pip --version
     - python --version
     - pyenv version
     - pip install --upgrade setuptools virtualenv pip
-    - eval "$(pyenv virtualenv-init -)"
-    - pyenv virtualenv 2.7.12 test_python2
-    - pyenv activate test_python2
+    # - eval "$(pyenv virtualenv-init -)"
+    # - pyenv virtualenv 2.7.12 test_python2
+    # - pyenv activate test_python2
   script:
     - pip install -r requirements.txt
     - pip install -r ci-deps.txt
