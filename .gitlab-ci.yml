@@ -65,9 +65,9 @@ test_3:
     - pip install -r ci-deps.txt
     - pytest
     - python setup.py install
-    - ./bin/cern-get-sso-cookie.py --help
-    - ./bin/cern-get-sso-cookie.py --kerberos --verbose --url https://dbnas-storage-docs.web.cern.ch
-    - grep -q "dbnas-storage-docs.web.cern.ch" cookies.txt
+    # - ./bin/cern-get-sso-cookie.py --help
+    # - ./bin/cern-get-sso-cookie.py --kerberos --verbose --url https://dbnas-storage-docs.web.cern.ch
+    # - grep -q "dbnas-storage-docs.web.cern.ch" cookies.txt
 
 
 deploy:
