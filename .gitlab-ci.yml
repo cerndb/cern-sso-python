@@ -24,12 +24,16 @@ test_2:
     - echo 'export PATH="/opt/app-root/jenkins/.pyenv/bin:$PATH"' >> ~/.bash_profile
     - source ~/.bash_profile
     - pyenv version
+    - python --version
     - eval "$(pyenv init -)"
     - pyenv install 2.7.12
     - pyenv global 2.7.12
+    - pip --version
+    - python --version
+    - pyenv version
+    - pip install --upgrade setuptools virtualenv pip
     - eval "$(pyenv virtualenv-init -)"
     - pyenv virtualenv 2.7.12 test_python2
-    - pip install --upgrade setuptools virtualenv pip
     - pyenv activate test_python2
   script:
     - pip install -r requirements.txt
