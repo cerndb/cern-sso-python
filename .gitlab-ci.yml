@@ -53,6 +53,10 @@ test_3:
     - pyenv global 3.6.0
     - eval "$(pyenv virtualenv-init -)"
     - pyenv virtualenv 3.6.0 test-python3
+     # Authenticate using the keytab:
+    - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
+    - yum install python-requests-kerberos python-requests python2-future
+    - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
   script:
     - pyenv activate test-python3
     - python --version
@@ -60,7 +64,11 @@ test_3:
     - pip install -r requirements.txt
     - pip install -r ci-deps.txt
     - pytest
-    - pyenv deactivate
+    - python setup.py install
+    - cern-get-sso-cookie.py --help
+    - cern-get-sso-cookie.py --kerberos --verbose --url https://dbnas-storage-docs.web.cern.ch
+    - grep -q "dbnas-storage-docs.web.cern.ch" cookies.txt
+
 
 deploy:
   stage: build
