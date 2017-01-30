@@ -19,7 +19,7 @@ test_2:
   image: ubuntu:latest
   stage: test
   before_script:
-    - apt-get install -y python-pip python-virtualenv libxslt-dev libxml2-dev python-pip libkrb5-dev
+    - apt-get update && apt-get install -y python-pip python-virtualenv libxslt-dev libxml2-dev python-pip libkrb5-dev
     # - yum install -y krb5-workstation krb5-libs krb5-devel rpm-build make tar zlib-devel bzip2-devel readline-devel openssl-devel sqlite-devel
     # - curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
     # - echo 'export PATH="/opt/app-root/jenkins/.pyenv/bin:$PATH"' >> ~/.bash_profile
