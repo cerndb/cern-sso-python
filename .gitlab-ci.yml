@@ -31,7 +31,7 @@ test_2:
     - pip --version
     - python --version
     - pyenv version
-    - pip install --upgrade setuptools virtualenv pip
+    # - pip install --upgrade setuptools virtualenv pip
     # - eval "$(pyenv virtualenv-init -)"
     # - pyenv virtualenv 2.7.12 test_python2
     # - pyenv activate test_python2
