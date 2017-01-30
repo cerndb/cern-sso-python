@@ -61,6 +61,29 @@ test_3:
     - pytest
     - pyenv deactivate
 
+deploy:
+  stage: build
+
+  image: gitlab-registry.cern.ch/ci-tools/ci-worker:cc7
+
+  # only:
+  #   - tags
+
+  before_script:
+    - yum install -y koji
+    - mkdir -p ~/.koji/
+    - >
+    echo [koji]
+    server = http://koji.cern.ch/kojihub
+    weburl = http://koji.cern.ch/koji
+    topurl = http://koji.cern.ch/kojifiles
+    cert    = /not/existing/file
+    > ~/.koji/config
+
+  - cat ~/.koji/config
+
+  script:
+
 # rpm:
 #   image: ubuntu:latest
 #   stage: build
