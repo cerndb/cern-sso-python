@@ -40,7 +40,7 @@ test_3:
     - ./test_get_cookie.sh
 
 deploy:
-  stage: build
+  stage: deploy
   image: gitlab-registry.cern.ch/ci-tools/ci-worker:cc7
 
   # only:
