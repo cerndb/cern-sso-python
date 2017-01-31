@@ -56,13 +56,7 @@ deploy:
     - kinit -k -t $KRB_USERNAME.keytab $KRB_USERNAME@CERN.CH
     - yum install -y koji
     - mkdir -p ~/.koji/
-    - >
-      echo [koji]
-      server = http://koji.cern.ch/kojihub
-      weburl = http://koji.cern.ch/koji
-      topurl = http://koji.cern.ch/kojifiles
-      cert    = /not/existing/file
-      > ~/.koji/config
+    - cp koji.conf ~/.koji/config
   script:
     - cat ~/.koji/config
     - koji list-permissions --mine
