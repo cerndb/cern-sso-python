@@ -52,18 +52,21 @@ deploy:
   #   - tags
 
   before_script:
+    - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
+    - kinit -k -t $KRB_USERNAME.keytab $KRB_USERNAME@CERN.CH
     - yum install -y koji
     - mkdir -p ~/.koji/
     - >
-      echo '[koji]\n
+      echo "[koji]\n
       server = http://koji.cern.ch/kojihub\n
       weburl = http://koji.cern.ch/koji\n
       topurl = http://koji.cern.ch/kojifiles\n
-      cert    = /not/existing/file\n'
+      cert    = /not/existing/file\n"
       > ~/.koji/config
   script:
     - cat ~/.koji/config
-
+    - koji list-permissions --mine
+    # - make build
 # rpm:
 #   image: ubuntu:latest
 #   stage: build
