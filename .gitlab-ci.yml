@@ -9,7 +9,7 @@ lint:
   before_script:
     - pip install flake8
   script:
-    - find . -iname "*.py" | xargs flake8
+    - make lint
 
 test_2:
   image: python:2

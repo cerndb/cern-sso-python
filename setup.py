@@ -1,5 +1,3 @@
-#import cern_sso
-
 # Always prefer setuptools over distutils
 from setuptools import setup
 # To use a consistent encoding

@@ -58,3 +58,7 @@ tag-qa:
 tag-stable:
 	koji tag-build db6-stable $(PKGID)-$(PKGRELEASE).el6
 	koji tag-build db7-stable $(PKGID)-$(PKGRELEASE).el7.cern
+
+lint:
+	find . -iname "*.py" | xargs flake8
+.PHONY: lint
