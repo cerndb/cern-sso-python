@@ -17,7 +17,7 @@ test_2:
   stage: test
   before_script:
      # Authenticate using the keytab:
-    - apk update && apk add make krb5 bash
+    - apk update && apk add make krb5 bash krb5-conf krb5-libs krb5-dev gcc python2-dev musl-dev
     - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
     - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
   script:
@@ -31,7 +31,7 @@ test_3:
   stage: test
   image: frolvlad/alpine-python3
   before_script:
-    - apk update && apk add make krb5 bash
+    - apk update && apk add make krb5 bash krb5-conf krb5-libs krb5-dev gcc python3-dev musl-dev
      # Authenticate using the keytab:
     - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
     - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
