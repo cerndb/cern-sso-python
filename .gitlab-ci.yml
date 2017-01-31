@@ -4,7 +4,7 @@ stages:
   - deploy
 
 lint:
-  image: frovlad/alpine-python2
+  image: frolvlad/alpine-python2
   stage: pre_test
   before_script:
     - apk update && apk add make
@@ -13,7 +13,7 @@ lint:
     - make lint
 
 test_2:
-  image: frovlad/alpine-python2
+  image: frolvlad/alpine-python2
   stage: test
   before_script:
      # Authenticate using the keytab:
@@ -29,7 +29,7 @@ test_2:
 
 test_3:
   stage: test
-  image: frovlad/alpine-python3
+  image: frolvlad/alpine-python3
   before_script:
     - apk update && apk add make krb5
      # Authenticate using the keytab:
