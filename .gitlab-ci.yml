@@ -19,7 +19,7 @@ test_2:
      # Authenticate using the keytab:
     - apk update && apk add make krb5 bash krb5-conf krb5-libs krb5-dev gcc python2-dev musl-dev
     - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
-    - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
+    - kinit -k -t $KRB_USERNAME.keytab $KRB_USERNAME@CERN.CH
   script:
     - pip install -r requirements.txt
     - pip install -r ci-deps.txt
@@ -34,7 +34,7 @@ test_3:
     - apk update && apk add make krb5 bash krb5-conf krb5-libs krb5-dev gcc python3-dev musl-dev
      # Authenticate using the keytab:
     - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
-    - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
+    - kinit -k -t $KRB_USERNAME.keytab $KRB_USERNAME@CERN.CH
   script:
     - pip install -r requirements.txt
     - pip install -r ci-deps.txt
