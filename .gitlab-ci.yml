@@ -16,6 +16,7 @@ test_2:
   stage: test
   before_script:
      # Authenticate using the keytab:
+    - sudo apt-get update && sudo apt-get install -y krb5-user
     - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
     - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
   script:
@@ -29,6 +30,7 @@ test_3:
   stage: test
   image: python:3
   before_script:
+    - sudo apt-get update && sudo apt-get install -y krb5-user
      # Authenticate using the keytab:
     - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
     - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
