@@ -11,7 +11,7 @@ lint:
   script:
     - find . -iname "*.py" | xargs flake8
 
-lint:
+test_2:
   image: python:2
   stage: test
   before_script:
