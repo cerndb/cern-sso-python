@@ -13,12 +13,13 @@ lint:
     - make lint
 
 test_2:
-  image: frolvlad/alpine-python2
+  image: python:2
   stage: test
   before_script:
      # Authenticate using the keytab:
-    - apk update && apk add make krb5 bash krb5-conf krb5-libs krb5-dev gcc python2-dev musl-dev
-    - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
+    - DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y libkrb5-dev make build-essential krb5-user libpython-dev
+    - cp krb5.conf /etc/krb5.conf
+    - base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab
     - kinit -k -t $KRB_USERNAME.keytab $KRB_USERNAME@CERN.CH
   script:
     - pip install -r requirements.txt
@@ -29,11 +30,13 @@ test_2:
 
 test_3:
   stage: test
-  image: frolvlad/alpine-python3
+  image: python:3
   before_script:
-    - apk update && apk add make krb5 bash krb5-conf krb5-libs krb5-dev gcc python3-dev musl-dev
+    - DEBIAN_FRONTEND=noninteractive apt-get update
+    - DEBIAN_FRONTEND=noninteractive apt-get install -y libkrb5-dev make build-essential krb5-user libpython-dev
+    - cp krb5.conf /etc/krb5.conf
      # Authenticate using the keytab:
-    - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
+    - base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab
     - kinit -k -t $KRB_USERNAME.keytab $KRB_USERNAME@CERN.CH
   script:
     - pip install -r requirements.txt
