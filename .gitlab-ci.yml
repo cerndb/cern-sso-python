@@ -17,7 +17,7 @@ test_2:
   stage: test
   before_script:
      # Authenticate using the keytab:
-    - apk update && apk add make krb5 bash krb5-conf krb5-libs krb5-dev gcc python2-dev musl-dev
+    - apk update && apk add make krb5 bash krb5-conf krb5-libs krb5-dev gcc python2-dev musl-dev libxml2-dev py-lxml
     - cp krb5.conf /etc/krb5.conf
     - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
     - kinit -k -t $KRB_USERNAME.keytab $KRB_USERNAME@CERN.CH
@@ -32,16 +32,16 @@ test_3:
   stage: test
   image: frolvlad/alpine-python3
   before_script:
-    - apk update && apk add make krb5 bash krb5-conf krb5-libs krb5-dev gcc python3-dev musl-dev
+    - apk update && apk add make krb5 bash krb5-conf krb5-libs krb5-dev gcc python3-dev musl-dev libxml2-dev py-lxml
     - cp krb5.conf /etc/krb5.conf
      # Authenticate using the keytab:
     - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
     - kinit -k -t $KRB_USERNAME.keytab $KRB_USERNAME@CERN.CH
   script:
-    - pip install -r requirements.txt
-    - pip install -r ci-deps.txt
+    - pip3 install -r requirements.txt
+    - pip3 install -r ci-deps.txt
     - pytest
-    - python setup.py install
+    - python3 setup.py install
     - ./test_get_cookie.sh
 
 deploy:
