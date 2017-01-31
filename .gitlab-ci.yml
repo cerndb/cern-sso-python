@@ -18,7 +18,7 @@ test_2:
   before_script:
      # Authenticate using the keytab:
     - apk update && apk add make krb5 bash
-    - bash -c "base64 --decode <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
+    - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
     - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
   script:
     - pip install -r requirements.txt
@@ -33,7 +33,7 @@ test_3:
   before_script:
     - apk update && apk add make krb5 bash
      # Authenticate using the keytab:
-    - bash -c "base64 --decode <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
+    - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
     - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
   script:
     - pip install -r requirements.txt
