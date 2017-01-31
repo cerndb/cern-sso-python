@@ -4,19 +4,20 @@ stages:
   - deploy
 
 lint:
-  image: python:2
+  image: frovlad/alpine-python2
   stage: pre_test
   before_script:
+    - apk update && apk add make
     - pip install flake8
   script:
     - make lint
 
 test_2:
-  image: python:2
+  image: frovlad/alpine-python2
   stage: test
   before_script:
      # Authenticate using the keytab:
-    - sudo apt-get update && sudo apt-get install -y krb5-user
+    - apk update && apk add make krb5
     - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
     - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
   script:
@@ -28,9 +29,9 @@ test_2:
 
 test_3:
   stage: test
-  image: python:3
+  image: frovlad/alpine-python3
   before_script:
-    - sudo apt-get update && sudo apt-get install -y krb5-user
+    - apk update && apk add make krb5
      # Authenticate using the keytab:
     - base64 --decode <(echo "$KRB_KEYTAB_CONTENTS") > $KRB_USERNAME.keytab
     - kinit $KRB_USERNAME@CERN.CH -k -t $KRB_USERNAME.keytab
