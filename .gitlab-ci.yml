@@ -56,7 +56,7 @@ deploy:
     - kinit -k -t $KRB_USERNAME.keytab $KRB_USERNAME@CERN.CH
     - yum install -y koji
     - mkdir -p ~/.koji/
-    - cp koji.conf ~/.koji/config
+    - cp koji.config ~/.koji/config
   script:
     - cat ~/.koji/config
     - koji list-permissions --mine
