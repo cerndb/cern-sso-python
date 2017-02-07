@@ -62,3 +62,10 @@ tag-stable:
 lint:
 	find . -iname "*.py" | xargs flake8
 .PHONY: lint
+
+
+deploy:
+	make test
+	git push origin :refs/tags/$(shell python setup.py --version 2>&1)
+	git tag -f $(shell ./bin/netapp-syncd --version 2>&1)
+	git push --tags
