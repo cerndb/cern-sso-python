@@ -53,10 +53,11 @@ deploy:
 
   before_script:
     - bash -c "base64 -d <(echo \"$KRB_KOJI_KEYTAB\") > $KRB_KOJI_USERNAME.keytab"
-#    - kinit -k -t $KRB_KOJI_KEYTAB.keytab $KRB_KOJI_USERNAME@CERN.CH
+    #- kinit -k -t $KRB_KOJI_KEYTAB.keytab $KRB_KOJI_USERNAME@CERN.CH
+    - ls -al
     - yum install -y koji
   script:
-    - koji --keytab=$KRB_KOJI_KEYTAB.keytab --principal=$KRB_KOJI_USERNAME@CERN.CH --authtype=kerberos --server=http://koji.cern.ch/kojihub --weburl=http://koji.cern.ch/koji --topurl=http://koji.cern.ch/kojifiles list-permissions --mine
+    - koji --keytab=$KRB_KOJI_USERNAME.keytab --principal=$KRB_KOJI_USERNAME@CERN.CH --authtype=kerberos --server=http://koji.cern.ch/kojihub --weburl=http://koji.cern.ch/koji --topurl=http://koji.cern.ch/kojifiles list-permissions --mine
     # - make build
 # rpm:
 #   image: ubuntu:latest
