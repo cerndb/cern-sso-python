@@ -5,7 +5,7 @@
 Name: python-cern-sso
 Version: 1.2.4
 Summary:        %{sum}
-Release: 1%{?dist}
+Release: 2%{?dist}
 Source0: %{name}-%{version}.tar.gz
 License: MIT
 Group: CERN/Utilities

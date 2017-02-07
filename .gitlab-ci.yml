@@ -48,12 +48,11 @@ deploy:
   stage: deploy
   image: gitlab-registry.cern.ch/ci-tools/ci-worker:cc7
 
-  # only:
-  #   - tags
+  only:
+    - tags
 
   before_script:
     - bash -c "base64 -d <(echo \"$KRB_KOJI_KEYTAB\") > $KRB_KOJI_USERNAME.keytab"
-    #- kinit -k -t $KRB_KOJI_KEYTAB.keytab $KRB_KOJI_USERNAME@CERN.CH
     - ls -al
     - yum install -y koji
   script:
@@ -63,7 +62,8 @@ deploy:
        --authtype=kerberos
        --server=http://koji.cern.ch/kojihub
        --weburl=http://koji.cern.ch/koji
-       --topurl=http://koji.cern.ch/kojifiles list-permissions --mine
+       --topurl=http://koji.cern.ch/kojifiles
+       build --wait $CI_BUILD_REPO#$CI_BUILD_TAG
     # - make build
 # rpm:
 #   image: ubuntu:latest
