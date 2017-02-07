@@ -65,7 +65,8 @@ lint:
 
 
 deploy:
-	make test
+	pytest
 	git push origin :refs/tags/$(shell python setup.py --version 2>&1)
 	git tag -f $(shell python setup.py --version 2>&1)
 	git push --tags
+.PHONY: deploy
