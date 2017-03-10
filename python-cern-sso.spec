@@ -3,9 +3,9 @@
 %define name python-%{srcname}
 
 Name: python-cern-sso
-Version: 1.2.4
+Version: 1.3.1
 Summary:        %{sum}
-Release: 2%{?dist}
+Release: 1%{?dist}
 Source0: %{name}-%{version}.tar.gz
 License: MIT
 Group: CERN/Utilities
