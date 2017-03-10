@@ -17,7 +17,7 @@ test_26:
   stage: test
   before_script:
     - yum update -y
-    - yum install -y python2-devel python-setuptools python-requests python-requests-kerberos python-six pytest libxml2-devel python-lxml gcc make
+    - yum install -y python2-devel python-setuptools python-requests python-requests-kerberos python-six pytest libxml2-devel python-lxml gcc make python-argparse
     - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
     - kinit -k -t $KRB_USERNAME.keytab $KRB_USERNAME@CERN.CH
   script:
