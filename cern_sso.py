@@ -74,9 +74,9 @@ def _finalise_login(s, auth_results):
     action = tree.findall("body/form")[0].get('action')
 
     # Unpack the hidden form data fields
-    form_data = dict.fromkeys([
+    form_data = dict((
         (elm.get('name'), elm.get('value'))
-        for elm in tree.findall("body/form/input")])
+        for elm in tree.findall("body/form/input")))
 
     # ...and submit the form (WHY IS THIS STEP EVEN HERE!?)
     log.debug("Performing final authentication POST to %s" % action)
