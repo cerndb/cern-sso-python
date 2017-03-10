@@ -14,7 +14,7 @@ setup(
     name='python-cern-sso',
 
     # Uses semver
-    version='1.3.1',
+    version='1.3.2',
 
     description='Cern Single-Single-Sign-On driver',
     long_description=long_description,
@@ -57,8 +57,7 @@ setup(
     install_requires=['requests',
                       'lxml',
                       'requests-kerberos',
-                      'six',
-                      'argparse'],
+                      'six'],
 
     scripts=['bin/cern-get-sso-cookie.py']
 )
