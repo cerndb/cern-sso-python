@@ -12,7 +12,20 @@ lint:
   script:
     - make lint
 
-test_2:
+test_26:
+  image: cern/slc6-base
+  stage: test
+  before_script:
+    - yum update -y
+    - yum install -y python2-devel python-setuptools python-requests python-requests-kerberos python-six pytest
+    - bash -c "base64 -d <(echo \"$KRB_KEYTAB_CONTENTS\") > $KRB_USERNAME.keytab"
+    - kinit -k -t $KRB_USERNAME.keytab $KRB_USERNAME@CERN.CH
+  script:
+    - python -m pytest
+    - python setup.py install
+    - ./test_get_cookie.sh
+
+test_27:
   image: frolvlad/alpine-python2
   stage: test
   before_script:

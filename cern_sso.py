@@ -6,8 +6,17 @@ import xml.etree.ElementTree as ET
 import requests
 from requests_kerberos import HTTPKerberosAuth, OPTIONAL
 
+try:  # Python 2.7+
+    from logging import NullHandler
+except ImportError:
+    # Hello, you are using a 10 year old software. :(
+    class NullHandler(logging.Handler):
+        def emit(self, record):
+            pass
+
+
 log = logging.getLogger(__name__)
-log.addHandler(logging.NullHandler())
+log.addHandler(NullHandler())
 
 DEFAULT_TIMEOUT_SECONDS = 10
 
@@ -55,13 +64,19 @@ def _finalise_login(s, auth_results):
     r2.raise_for_status()
 
     # Get the contents
-    tree = ET.fromstring(r2.content)
+    try:
+        tree = ET.fromstring(r2.content)
+    except ET.ParseError as e:
+        log.error("Could not parse response from server!")
+        log.error("The contents returned was:\n{}".format(r2.content))
+        raise e
 
     action = tree.findall("body/form")[0].get('action')
 
     # Unpack the hidden form data fields
-    form_data = {elm.get('name'): elm.get('value')
-                 for elm in tree.findall("body/form/input")}
+    form_data = dict.fromkeys([
+        (elm.get('name'), elm.get('value'))
+        for elm in tree.findall("body/form/input")])
 
     # ...and submit the form (WHY IS THIS STEP EVEN HERE!?)
     log.debug("Performing final authentication POST to %s" % action)

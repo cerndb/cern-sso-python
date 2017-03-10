@@ -49,7 +49,7 @@ scratch:
 
 build:
 	koji build db6 --nowait ${REPOURL}${REPOPREFIX}/${REPONAME}.git#${PKGVERSION}
-	koji build db7 --nowait ${REPOURL}${REPOPREFIX}/${REPONAME}.git#${PKGVERSION}
+	koji build db7 --wait ${REPOURL}${REPOPREFIX}/${REPONAME}.git#${PKGVERSION}
 
 tag-qa:
 	koji tag-build db6-qa $(PKGID)-$(PKGRELEASE).el6

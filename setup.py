@@ -14,7 +14,7 @@ setup(
     name='python-cern-sso',
 
     # Uses semver
-    version='1.2.4',
+    version='1.3.0',
 
     description='Cern Single-Single-Sign-On driver',
     long_description=long_description,
@@ -44,6 +44,7 @@ setup(
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
+        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
     ],
