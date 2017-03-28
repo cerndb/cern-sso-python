@@ -70,3 +70,13 @@ deploy:
 	git tag -f $(shell python setup.py --version 2>&1)
 	git push --tags
 .PHONY: deploy
+
+
+docker-image:
+	docker build -t astjerna/sso-legacy .
+
+docker-run:
+	docker run --volume $(shell pwd):/home/work --rm -it astjerna/sso-legacy python -m pytest
+
+docker-shell:
+	docker run --volume $(shell pwd):/home/work --rm -it astjerna/sso-legacy bash
