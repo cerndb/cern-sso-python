@@ -76,7 +76,16 @@ deploy:
        --server=http://koji.cern.ch/kojihub
        --weburl=http://koji.cern.ch/koji
        --topurl=http://koji.cern.ch/kojifiles
-       build db7 --wait git+ssh://git@gitlab.cern.ch:7999/$CI_PROJECT_PATH#$CI_BUILD_TAG
+       build db7 --wait git+ssh://git@gitlab.cern.ch:7999/$CI_PROJECT_PATH\#$CI_BUILD_TAG
+
+    - >
+       koji --keytab=$KRB_KOJI_USERNAME.keytab
+       --principal=$KRB_KOJI_USERNAME@CERN.CH
+       --authtype=kerberos
+       --server=http://koji.cern.ch/kojihub
+       --weburl=http://koji.cern.ch/koji
+       --topurl=http://koji.cern.ch/kojifiles
+       build db6 --wait git+ssh://git@gitlab.cern.ch:7999/$CI_PROJECT_PATH\#$CI_BUILD_TAG
     # - make build
 # rpm:
 #   image: ubuntu:latest
