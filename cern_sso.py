@@ -21,7 +21,7 @@ log.addHandler(NullHandler())
 DEFAULT_TIMEOUT_SECONDS = 10
 
 
-def _init_session(s, url, cookiejar, auth_url_fragment):
+def _init_session(s, url, cookiejar, auth_url_fragment, verify=True):
     """
     Internal helper function: initialise the sesion by trying to access
     a given URL, setting up cookies etc.
@@ -38,7 +38,7 @@ def _init_session(s, url, cookiejar, auth_url_fragment):
 
     # Try getting the URL we really want, and get redirected to SSO
     log.info("Fetching URL: %s" % url)
-    r1 = s.get(url, timeout=DEFAULT_TIMEOUT_SECONDS)
+    r1 = s.get(url, timeout=DEFAULT_TIMEOUT_SECONDS, verify=verify)
 
     # Parse out the session keys from the GET arguments:
     redirect_url = urlparse(r1.url)
@@ -91,7 +91,7 @@ def _finalise_login(s, auth_results):
     return s.cookies
 
 
-def krb_sign_on(url, cookiejar=None):
+def krb_sign_on(url, cookiejar=None, verify=True):
     """
     Perform Kerberos-backed single-sign on against a provided
     (protected) URL.
@@ -112,7 +112,7 @@ def krb_sign_on(url, cookiejar=None):
     with requests.Session() as s:
 
         krb_auth_url = _init_session(s=s, url=url, cookiejar=cookiejar,
-                                     auth_url_fragment=u"auth/integrated/")
+                                     auth_url_fragment=u"auth/integrated/", verify=verify)
 
         # Perform actual Kerberos authentication
         log.info("Performing Kerberos authentication against %s"
@@ -124,7 +124,7 @@ def krb_sign_on(url, cookiejar=None):
         return _finalise_login(s, auth_results=r2)
 
 
-def cert_sign_on(url, cert_file, key_file, cookiejar={}):
+def cert_sign_on(url, cert_file, key_file, cookiejar={}, verify=True):
     """
     Perform Single-Sign On with a robot/user certificate specified by
     cert_file and key_file agains the target url. Note that the key
@@ -155,7 +155,7 @@ def cert_sign_on(url, cert_file, key_file, cookiejar={}):
         s.cert = (cert_file, key_file)
 
         cert_auth_url = _init_session(s=s, url=url, cookiejar=cookiejar,
-                                      auth_url_fragment=u"auth/sslclient/")
+                                      auth_url_fragment=u"auth/sslclient/", verify=verify)
 
         log.info("Performing SSL Cert authentication against %s"
                  % cert_auth_url)
