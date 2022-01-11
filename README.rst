@@ -67,7 +67,7 @@ For an example of how to use an external CookieJar, see
 ``bin/cern-get-sso-cookie.py``.
 
 Using ``cern-get-sso-cookie.py``
-------------------------------
+--------------------------------
 
 Just like ``cern-get-sso-cookie``, the Python implementation will
 authenticate against a desired URL and returna Mozilla cookie-file
@@ -77,6 +77,7 @@ For use with Kerberos, make sure you are authenticated either via
 password or a keytab:
 
 .. code:: sh
+
           $ kinit me@CERN.CH
           <enter password>
 
@@ -84,6 +85,7 @@ password or a keytab:
 Now you can perform the authentication:
 
 .. code:: sh
+
           $ cern-get-sso-cookie.py --url https://cerntraining.service-now.com --kerberos
           # cookies.txt now contains the relevant session cookies
           $ curl -L --cookie cookies.txt --cookie-jar cookies.txt -H 'Accept: application/json' "https://cerntraining.service-now.com/api/now/v1/table/incident"
@@ -98,6 +100,7 @@ to process the certificate files to remove passwords and separate the
 key and certificate:
 
 .. code:: sh
+
           $ openssl pkcs12 -clcerts -nokeys -in myCert.p12 -out myCert.pem
 
           $ openssl pkcs12 -nocerts -in myCert.p12 -out myCert.tmp.key
@@ -112,6 +115,7 @@ name ``myCert`` was used.
 Finally, you can use the certificates to obtain a SSO cookie:
 
 .. code:: sh
+
           $ cern-get-sso-cookie.py --url https://cerntraining.service-now.com --cert myCert
 
 
